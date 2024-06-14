@@ -66,3 +66,122 @@ div.tool-card.disabled{
 .modal .btn-close{
 	filter: invert(100%);
 }
+
+/* SKELETON SHIMMER */
+
+.skeleton-progressor{
+	border:1px solid;
+	border-color:#bdbdbd;
+	border-radius:2px;
+	padding: 20px;
+	background: #ffffff;
+}
+
+.skeleton-progressor-shimmer {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeHolderShimmer;
+  -webkit-animation-timing-function: linear;
+  background: #d8d8d8;
+  background-image: linear-gradient(to right, #d8d8d8 0%, #bdbdbd 20%, #d8d8d8 40%, #d8d8d8 100%);
+  background-repeat: no-repeat;
+  /*background-size: 800px 104px;*/
+  background-size: contain;
+  height: 104px;
+  position: relative
+}
+
+.skeleton-progressor-shimmer div {
+  background: #ffffff;
+  height: 6px;
+  left: 0;
+  position: absolute;
+  right: 0
+}
+
+div._2iwr {
+  height: 40px;
+  left: 40px;
+  right: auto;
+  top: 0;
+  width: 8px;
+}
+
+div._2iws {
+  height: 8px;
+  left: 48px;
+  top: 0
+}
+
+div._2iwt {
+  left: 136px;
+  top: 8px
+}
+
+div._2iwu {
+  height: 12px;
+  left: 48px;
+  top: 14px
+}
+
+div._2iwv {
+  left: 100px;
+  top: 26px
+}
+
+div._2iww {
+  height: 10px;
+  left: 48px;
+  top: 32px
+}
+
+div._2iwx {
+  height: 20px;
+  top: 40px
+}
+
+div._2iwy {
+  left: 410px;
+  top: 60px
+}
+
+div._2iwz {
+  height: 13px;
+  top: 66px
+}
+
+div._2iw- {
+  left: 440px;
+  top: 79px
+}
+
+div._2iw_ {
+  height: 13px;
+  top: 85px
+}
+
+div._2ix0 {
+  left: 178px;
+  top: 98px
+}
+
+@-webkit-keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0
+  }
+  100% {
+    background-position: 468px 0
+  }
+}
+
+@-webkit-keyframes prideShimmer {
+  from {
+    background-position: top left
+  }
+  to {
+    background-position: top right
+  }
+}
+
+/* END SKELETON SHIMMER */

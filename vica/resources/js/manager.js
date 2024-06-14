@@ -76,6 +76,59 @@ const parameterColors = {
 let isSubset = (array1, array2) => array2.every((element) => array1.includes(element));
 
 /**
+ * Returns an jQuery object which represents included skeleton progressor HTML  
+ */
+let createSkeletonProgressor = () => {
+	return $(`<div class="skeleton-progressor">
+				<div class="skeleton-progressor-shimmer">
+        			<div class="_2iwr container-fluidX"></div>
+        			<div class="_2iws container-fluidX"></div>
+        			<div class="_2iwt container-fluidX"></div>
+        			<div class="_2iwu container-fluidX"></div>
+        			<div class="_2iwv container-fluidX"></div>
+        			<div class="_2iww container-fluidX"></div>
+        			<div class="_2iwx container-fluidX"></div>
+        			<div class="_2iwy container-fluidX"></div>
+        			<div class="_2iwz container-fluidX"></div>
+        			<div class="_2iw- container-fluidX"></div>
+        			<div class="_2iw_ container-fluidX"></div>
+        			<div class="_2ix0 container-fluidX"></div>
+      			</div>
+      		  </div>
+      		`);
+}
+
+/**
+ * Appends a skeleton progressor to an HTML element
+ */
+let appendSkeletonProgressor = (entity) => {
+	if (typeof entity === "string") {
+		$('#' + entity).children().addClass('d-none');
+		$('#' + entity).append(createSkeletonProgressor());
+	}
+
+	if (typeof entity === "object") {
+		$(entity).children().addClass('d-none');
+		$(entity).append(createSkeletonProgressor());
+	}
+}
+
+/**
+ * Removes a skeleton progressor from an HTML element
+ */
+let removeSkeletonProgressor = (entity) => {
+	if (typeof entity === "string") {
+		$('#' + entity + ' .skeleton-progressor').remove();
+		$('#' + entity).children().removeClass('d-none');
+	}
+
+	if (typeof entity === "object") {
+		$(entity).find('.skeleton-progressor').remove();
+		$(entity).children().removeClass('d-none');
+	}
+}
+
+/**
  * Resetting the modal included iframe for next call.
  */
 let resetIFrame = () => {
@@ -337,6 +390,39 @@ let renderToolCards = () => {
 $(document).ready(function() {
 	
 	renderToolCards();
+	
+	$("#mobidetails-hgvs-search-btn").click(function() {
+		appendSkeletonProgressor($("#input-data-row"));
+		ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/exists/" + $("#mobidetails-hgvs-input").val(), {}, function(r1) {
+			if (r1.mobidetails_id) {
+				ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/" + r1.mobidetails_id + "/cli/,", {}, function(r2) {
+					if (r2.VCF) {
+						$("#chr-input").val(r2.VCF.chr);
+						$("#ref-input").val(r2.VCF[humanGenomeVersion].ref);
+						$("#alt-input").val(r2.VCF[humanGenomeVersion].alt);
+						$("#start-input").val(r2.VCF[humanGenomeVersion].pos);
+						$("#end-input").val(r2.VCF[humanGenomeVersion].pos);
+					}
+
+					if (r2.gene) {
+						$("#gene-input").val(r2.gene.symbol);
+					}
+
+					$(".data-input").keyup();
+					removeSkeletonProgressor($("#input-data-row"));
+				});
+			} else {
+				$("#chr-input").val("");
+				$("#ref-input").val("");
+				$("#alt-input").val("");
+				$("#start-input").val("");
+				$("#end-input").val("");
+				$("#gene-input").val("");
+				$(".data-input").keyup();
+				removeSkeletonProgressor($("#input-data-row"));
+			}
+		});
+	});
 	
 	$(".use-input").click(function(_) {
 		$(this).parent().prev().keyup();

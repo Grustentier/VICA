@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	<script src="resources/js/bootstrap.bundle.js"></script>
 	<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/ServiceCaller.js"></script>
 	<script src="resources/js/manager.js"></script>
 </head>
 
@@ -25,6 +26,17 @@
 				<div class="alert alert-secondary alert-dismissible fade show shadow">
 					You determine which parameters are used to call up an external app. Some apps can be called up with different parameters. To do this, activate or deactivate the corresponding inputs using the <span class="p-1" style="border-radius:0.25rem;font-size:12px;color:#fff;background:var(--color-2);">use</span> button. You can see whether an app can be called with the corresponding parameters by checking whether it is visually activated.
 				<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+			</div>
+		</div>
+		
+		<div class="row p-5 rounded">
+			<div class="col">
+				<div class="ms-1 text-info"><span class="text-danger"><a class="text-danger" href="https://mobidetails.iurc.montp.inserm.fr/MDAPI/" target="_blank">[Only for non-academic users!]</a></span> Automatic filling of the input parameters Chr, Gene, Pos | Start-Pos, End-Pos, Ref and Alt based on HGVS genomic variant description.</div>
+				<div class="input-group">
+  					<span class="input-group-text" id="basic-addon1">HGVS genomic variant description</span>
+  					<input id="mobidetails-hgvs-input" type="text" class="form-control mobidetails-hgvs-input" placeholder="NC_000001.11:g.40817273T>G" aria-label="mobidetails-hgvs" aria-describedby="basic-addon1" validationType="number">
+  					<span class="input-group-text" id="basic-addon1"><label id="mobidetails-hgvs-search-btn" class="btn btn-sm btn-success">search</label></span>
+				</div>
 			</div>
 		</div>
 		
@@ -51,7 +63,7 @@
 			</div>
 		</div>
 		
-		<div class="row p-5 rounded">
+		<div id="input-data-row" class="row p-5 rounded">
 			<div class="col">
 				<div class="input-group mb-3 p-2 rounded" style="background:#fd7e14">
   					<span class="input-group-text" id="basic-addon1">Chr</span>
