@@ -12,9 +12,9 @@ Based on a simple set of parameters [chromosome, gene, start position, end posit
 To all programmers who always do everything better: I am aware that nobody uses jQuery anymore and that there are better frameworks for interactive front-end design. And yes, the dirty vanilla JavaScript could certainly have been solved better. But it is enough to implement this simple idea.
 ## Links
 logos from following web page are used:
-* https://gnomad.broadinstitute.org/
+* https://gnomad.broadinstitute.org/policies
 * https://www.ncbi.nlm.nih.gov/clinvar/
-* policy: https://grch37.ensembl.org/info/about/legal/index.html
+* https://grch37.ensembl.org/info/about/legal/index.html
 * https://genome.ucsc.edu/
 * https://varsome.com/
 * https://spliceailookup.broadinstitute.org/
