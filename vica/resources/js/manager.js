@@ -401,7 +401,13 @@ $(document).ready(function() {
 						$("#ref-input").val(r2.VCF[humanGenomeVersion].ref);
 						$("#alt-input").val(r2.VCF[humanGenomeVersion].alt);
 						$("#start-input").val(r2.VCF[humanGenomeVersion].pos);
-						$("#end-input").val(r2.VCF[humanGenomeVersion].pos);
+ 
+						if (r2.VCF[humanGenomeVersion].ref.length > r2.VCF[humanGenomeVersion].alt.length) {
+							const diff = r2.VCF[humanGenomeVersion].ref.length - r2.VCF[humanGenomeVersion].alt.length;
+							$("#end-input").val(r2.VCF[humanGenomeVersion].pos + diff);
+						} else {
+							$("#end-input").val(r2.VCF[humanGenomeVersion].pos);
+						}
 					}
 
 					if (r2.gene) {
