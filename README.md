@@ -13,9 +13,9 @@ To all programmers who always do everything better: I am aware that nobody uses 
 ## Links
 logos from following web page are used:
 * https://gnomad.broadinstitute.org/policies
-* https://www.ncbi.nlm.nih.gov/clinvar/
+* https://www.ncbi.nlm.nih.gov/home/about/policies/
 * https://grch37.ensembl.org/info/about/legal/index.html
-* https://genome.ucsc.edu/
+* https://genome.ucsc.edu/license/
 * https://varsome.com/
 * https://spliceailookup.broadinstitute.org/
 * http://www.genemed.tech/spcards/analysis
