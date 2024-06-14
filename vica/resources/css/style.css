@@ -1,0 +1,68 @@
+:root { 	
+	--button-bg-color:#0056a3;
+	--main-border-color:#0056a3;
+	--main-hover-color:#0056a3;
+	--main-title-color:#0056a3;
+	--main-bg-color:#fff;
+	
+	--color-1:#8dd44a;
+	--color-2:#00aeeb;
+	--color-3:#0056a3;
+	--color-4: #bbdeff;
+	
+	--state1:silver;
+	--state2:#fdb67b;
+	--state3:#a0ecfb;
+	--state4:#5eb78d;
+}
+
+body { 
+	background: #bbdeff repeat scroll 0 0;
+	background-attachment: fixed; 
+	/*text-align: center;*/
+	background-repeat: scroll 0 0;
+} 
+
+h4{
+  color: var(--color-2);
+  text-align: left;
+}
+
+.first-inner-wrapper{ 
+	padding: 10px;
+ 	width: 100%;
+ 	border-radius: 0.375rem; 
+ 	margin-bottom:10px;
+ 	background: -moz-linear-gradient(180deg, rgba(248,248,248,1) 0%, rgba(255,255,255,1) 10%);
+	background: -webkit-linear-gradient(180deg, rgba(248,248,248,1) 0%, rgba(255,255,255,1) 10%);
+	background: linear-gradient(180deg, rgba(248,248,248,1) 0%, rgba(255,255,255,1) 10%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8f8f8",endColorstr="#ffffff",GradientType=1);
+} 
+
+div.tool-card{
+	float:left;
+	min-width:270px;
+	max-width:500px;
+	width:auto;
+	height:150px;
+	border:none;
+	cursor: pointer;
+}
+
+div.tool-card:HOVER{
+	box-shadow: var(--color-3) 0px 2px 4px !important;
+}
+
+div.tool-card.disabled{
+	filter:grayscale(100%);
+	cursor: default;
+}
+
+.modal-header{
+	background: var(--color-3);
+	color:#fff;
+}
+
+.modal .btn-close{
+	filter: invert(100%);
+}
