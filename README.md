@@ -14,7 +14,7 @@ To all programmers who always do everything better: I am aware that nobody uses 
 logos from following web page are used:
 * https://gnomad.broadinstitute.org/
 * https://www.ncbi.nlm.nih.gov/clinvar/
-* https://grch37.ensembl.org/
+* policy: https://grch37.ensembl.org/info/about/legal/index.html
 * https://genome.ucsc.edu/
 * https://varsome.com/
 * https://spliceailookup.broadinstitute.org/
