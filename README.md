@@ -12,4 +12,17 @@ Based on a simple set of parameters [chromosome, gene, start position, end posit
 To all programmers who always do everything better: I am aware that nobody uses jQuery anymore and that there are better frameworks for interactive front-end design. And yes, the dirty vanilla JavaScript could certainly have been solved better. But it is enough to implement this simple idea.
 ## Links
 logos from following web page are used:
-https://gnomad.broadinstitute.org/
+* https://gnomad.broadinstitute.org/
+* https://www.ncbi.nlm.nih.gov/clinvar/
+* https://grch37.ensembl.org/
+* https://genome.ucsc.edu/
+* https://varsome.com/
+* https://spliceailookup.broadinstitute.org/
+* http://www.genemed.tech/spcards/analysis
+* http://dgv.tcag.ca/dgv/app/home
+* https://www.deciphergenomics.org/
+* https://franklin.genoox.com/clinical-db/home
+* https://www.genecascade.org/MutationTaster2021/
+* https://lbgi.fr/mistic/
+* https://primad.basespace.illumina.com/
+* https://www.lovd.nl/
