@@ -12,6 +12,7 @@ let alt = "";
 let gene = "";
 let validInputs = [];
 
+/*
 const externalTools = {
     "genomAD":"resources/imgs/gnomAD.png",
     "clinvar":"resources/imgs/ncbi_clinvar.png",
@@ -27,6 +28,24 @@ const externalTools = {
     "mistic":"resources/imgs/mistic.png",
     "primAD":"resources/imgs/primAD.png",
     "lovd":"resources/imgs/lovd.png"    
+};
+*/ 
+
+const externalTools = {
+    "genomAD":"genomAD",
+    "clinvar":"ClinVar",
+    "ensembl":"e!Ensembl",
+    "ucsc":"UCSC Genome Browser",
+    "varsome":"varsome",
+    "spliceAI_lookup":"SpliceAI-lookup",
+    "spCards":"SPCards",
+    "dgv":"Database of Genomic Variants",
+    "decipher":"Decipher",
+    "franklin":"Franklin",
+    "mutation_tasting":"mutation t@sting",
+    "mistic":"MISTIC",
+    "primAD":"primAD",
+    "lovd":"LOVD"    
 };
 
 const toolDescription = {
@@ -299,7 +318,7 @@ let activateToolCardOnValidInputRequirements = () => {
 
 	registerValidInputData();
 
-	$("#external-tools-container .tool-card .used-requirements").html("");
+	$("#external-tools-container .used-requirements").html("");
 
 	$.each($("#external-tools-container .tool-card"), function(_, element) {
 		var relevantParameterSets = [];
@@ -322,7 +341,7 @@ let activateToolCardOnValidInputRequirements = () => {
 			$.each(longestParameterSet, function(_, req) {
 				coloredParameter += `<span class="p-1 ms-1 rounded" style="font-size: 12px;color:#fff;background:${parameterColors[req]}">${req}</span>`;
 			})
-			$(toolCard).find(".used-requirements").html(coloredParameter);
+			$(toolCard).prev(".used-requirements").html(coloredParameter);
 			$(toolCard).removeClass("disabled");
 		} else {
 			$(toolCard).addClass("disabled");
@@ -379,9 +398,23 @@ let gatherInputData = (dataInputElement) => {
  */
 let renderToolCards = () => {
 	$.each(Object.keys(externalTools),function(_,tool){
-		$("#external-tools-container").append(`
-				<div class="tool-card shadow m-4 p-2 rounded disabled" style="background:url('${externalTools[tool]}'); background-size: contain;background-repeat: no-repeat;background-position: center;background-origin: content-box;" tool="${tool}" alt="${toolDescription[tool]}" title="${toolDescription[tool]}">
+		//with images... 
+		//change externalTools object with image paths
+		//images not included
+		/*$("#external-tools-container").append(`
+				<div class="tool-card-container m-4">
 					<div class="w-100 used-requirements" style="margin-top:-37px;height:20px;"></div>
+					<div class="tool-card shadow p-2 rounded disabled" style="background:url('${externalTools[tool]}'); background-size: contain;background-repeat: no-repeat;background-position: center;background-origin: content-box;" tool="${tool}" alt="${toolDescription[tool]}" title="${toolDescription[tool]}">
+
+					</div>
+				</div>
+											`);*/
+		$("#external-tools-container").append(`
+				<div class="tool-card-container m-4">
+					<div class="w-100 used-requirements" style="margin-top:-37px;height:20px;"></div>				
+					<div class="tool-card shadow p-2 rounded text-primary disabled" style="display: inline-grid; justify-content: center; align-items: center;font-size: 40px;text-align:center" tool="${tool}" alt="${toolDescription[tool]}" title="${toolDescription[tool]}">
+						${externalTools[tool]}
+					</div>
 				</div>
 											`);
 	});

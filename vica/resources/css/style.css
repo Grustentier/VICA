@@ -39,8 +39,7 @@ h4{
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8f8f8",endColorstr="#ffffff",GradientType=1);
 } 
 
-div.tool-card{
-	float:left;
+div.tool-card{ 
 	min-width:270px;
 	max-width:500px;
 	width:auto;
@@ -58,6 +57,16 @@ div.tool-card.disabled{
 	cursor: default;
 }
 
+div.tool-card-container{
+	float:left;
+	min-width:270px;
+	max-width:500px;
+	width:auto;
+	height:150px;
+	border:none;
+	cursor: pointer;
+}
+
 .modal-header{
 	background: var(--color-3);
 	color:#fff;
@@ -65,6 +74,24 @@ div.tool-card.disabled{
 
 .modal .btn-close{
 	filter: invert(100%);
+}
+
+.btn-outline-2{
+	border-color: var(--color-2);
+	color: var(--color-2) !important;
+}
+
+.btn-outline-2:hover{
+	border-color: var(--color-2) !important;
+	background-color: var(--color-2) !important;
+	color: #fff !important;
+	box-shadow: rgba(0, 0, 0, 0.30) 0px 2px 4px !important;
+}
+
+.btn-check:checked + .btn-outline-2, .btn-outline-2.active, .btn-outline-2.dropdown-toggle.show, .btn-outline-2:active {
+  color: #fff !important;
+  background-color: var(--color-2);
+  border-color: var(--color-2);
 }
 
 /* SKELETON SHIMMER */
