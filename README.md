@@ -13,7 +13,6 @@ To all programmers who always do everything better: I am aware that nobody uses 
 ## Logos
 Due to copyright, the logos of external providers have been removed. However, you could obtain consent or create your own logos and simply comment out and in a few lines of code to display the logos in the UI.
 ## Licence
-Reasen b
 Basically, the APP is free to use. However, it is important to note that the automatic filling of the input parameters Chr, Gene, Pos | Start-Pos, End-Pos, Ref and Alt based on HGVS genomic variant description from https://mobidetails.iurc.montp.inserm.fr/MDAPI/ API is reserved for academic users only... [Only academic users!]
 
 
