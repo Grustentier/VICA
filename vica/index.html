@@ -10,6 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	<script src="resources/js/bootstrap.bundle.js"></script>
 	<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/jquery.cookie.js"></script>
 	<script src="resources/js/ServiceCaller.js"></script>
 	<script src="resources/js/manager.js"></script>
 </head>
@@ -26,6 +27,19 @@
 				<div class="alert alert-secondary alert-dismissible fade show shadow">
 					You determine which parameters are used to call up an external app. Some apps can be called up with different parameters. To do this, activate or deactivate the corresponding inputs using the <span class="p-1" style="border-radius:0.25rem;font-size:12px;color:#fff;background:var(--color-2);">use</span> button. You can see whether an app can be called with the corresponding parameters by checking whether it is visually activated.
 				<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+				
+				<div id="error-notification-alert" class="alert alert-danger alert-dismissible fade shadow"><div class="content"></div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+			</div>
+		</div>
+		
+		<div class="row ps-5 mt-5 rounded">
+			<div class="col">
+				<div class="ms-1 text-primary"><span class="text-danger text-danger">[Required!]</span> Not all variants are known by MobiDetails database. To record unknown variants in the MobiDetails database, you must first <a href="https://mobidetails.iurc.montp.inserm.fr/MD/auth/register" target="_blank">register</a> as a user!</div>
+				<div class="input-group">
+  					<span class="input-group-text" id="basic-addon1">API-Key</span>
+  					<input id="mobidetails-api-key-input" type="text" class="form-control mobidetails-api-key-input" placeholder="e.g. iIYKVGZ..." aria-label="mobidetails-api-input" aria-describedby="basic-addon1">
+				</div>
 			</div>
 		</div>
 		
@@ -109,6 +123,14 @@
   					<span class="input-group-text" id="basic-addon1">Alt</span>
   					<input id="alt-input" type="text" class="form-control data-input" placeholder="[ACGT]*" aria-label="Alt" aria-describedby="basic-addon1" validationType="base">
   					<span class="input-group-text" id="basic-addon1"><input type="checkbox" class="btn-check use-input" id="use-alt-input" name="use-input" autocomplete="off" checked> <label class="btn btn-sm btn-outline-2" for="use-alt-input" >use</label></span>
+				</div>
+			</div>
+			
+			<div class="col" style="display:none">
+				<div class="input-group mb-3 p-2 rounded" style="background:#ffc107">
+  					<span class="input-group-text" id="basic-addon1">mobiDetailsId</span>
+  					<input id="mobiDetailsId-input" type="text" class="form-control data-input" placeholder="[0,&#8734;]" aria-label="mobiDetailsId" aria-describedby="basic-addon1" validationType="number">
+  					<span class="input-group-text" id="basic-addon1"><input type="checkbox" class="btn-check use-input" id="use-mobiDetailsId-input" name="use-input" autocomplete="off" checked> <label class="btn btn-sm btn-outline-2" for="use-mobiDetailsId-input" >use</label></span>
 				</div>
 			</div>
 			

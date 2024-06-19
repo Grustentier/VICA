@@ -10,10 +10,12 @@ let end = "";
 let ref = "";
 let alt = "";
 let gene = "";
+let mobiDetailsId = "";
 let validInputs = [];
 
 /*
 const externalTools = {
+	"mobiDetails": "resources/imgs/mobiDetails.png",
     "genomAD":"resources/imgs/gnomAD.png",
     "clinvar":"resources/imgs/ncbi_clinvar.png",
     "ensembl":"resources/imgs/ensembl.png",
@@ -32,6 +34,7 @@ const externalTools = {
 */ 
 
 const externalTools = {
+	"mobiDetails":"mobiDetails",
     "genomAD":"genomAD",
     "clinvar":"ClinVar",
     "ensembl":"e!Ensembl",
@@ -49,6 +52,7 @@ const externalTools = {
 };
 
 const toolDescription = {
+	"mobiDetails":"mobiDetailsId",
     "genomAD":"for variant: Chr + Pos + Ref + Alt OR for region: Chr + Start + End OR for gene: Gene",
     "clinvar":"Chr + Start + End",
     "ensembl":"Chr + Start + End",
@@ -66,6 +70,7 @@ const toolDescription = {
 };
 
 const toolParameterSets = {
+	"mobiDetails": ["mobiDetailsId"],
 	"genomAD": ["chr-pos-ref-alt", "chr-start-end", "gene"],
 	"clinvar": ["chr-start-end"],
 	"ensembl": ["chr-start-end"],
@@ -89,7 +94,8 @@ const parameterColors = {
 	pos: "#6f42c1",
 	end: "#0d6efd",
 	ref: "#198754",
-	alt: "#d63384"
+	alt: "#d63384",
+	mobiDetailsId: "#ffc107"
 }
 
 let isSubset = (array1, array2) => array2.every((element) => array1.includes(element));
@@ -309,6 +315,23 @@ let registerValidInputData = () => {
 			return elem != "gene";
 		});
 	}
+	
+	if (mobiDetailsId.length > 0) {
+		if (jQuery.inArray("mobiDetailsId", validInputs) == -1) {
+			validInputs.push("mobiDetailsId");
+		}
+	} else {
+		validInputs = validInputs.filter(function(elem) {
+			return elem != "mobiDetailsId";
+		});
+	}
+
+	if (!$("#use-mobiDetailsId-input").is(":checked")) {
+		mobiDetailsId = "";
+		validInputs = validInputs.filter(function(elem) {
+			return elem != "mobiDetailsId";
+		});
+	}
 }
 
 /**
@@ -391,6 +414,19 @@ let gatherInputData = (dataInputElement) => {
 	if ($(dataInputElement).attr("aria-label") == "Gene") {
 		gene = value;
 	}
+	
+	if ($(dataInputElement).attr("aria-label") == "mobiDetailsId") {
+		mobiDetailsId = value;
+	}
+}
+
+let showError = (txt) => {
+	$("#error-notification-alert .content").html(txt);
+	$("#error-notification-alert").addClass("show");
+	setTimeout(() => {
+		$("#error-notification-alert").removeClass("show");
+		$("#error-notification-alert .content").html("");
+	}, 3000)
 }
 
 /**
@@ -420,48 +456,102 @@ let renderToolCards = () => {
 	});
 }
 
+let createMobiDetailsVariant = (hgvs, callback) => {
+	var apiKey = $("#mobidetails-api-key-input").val();
+
+	hgvs = hgvs.replaceAll(":", "%3A");
+	hgvs = hgvs.replaceAll(">", "%3E");
+	hgvs = hgvs.replaceAll("+", "%2B");
+	hgvs = hgvs.replaceAll("-", "%2D");
+
+	ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/create?variant_chgvs=" + encodeURI(hgvs) + "&caller=cli&api_key=" + apiKey + "", { "H": "accept:application/json" }, function(response) {
+		if (callback) {
+
+			if (response.mobidetails_error) {
+				showError(response.mobidetails_error);
+			}
+
+			callback(response);
+		}
+	});
+}
+
+let transferMobiDetailsInfoToInputFields = (mobiDetailsId) => {
+	$("#mobiDetailsId-input").val(mobiDetailsId);
+
+	ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/" + mobiDetailsId + "/cli/,", {}, function(r2) {
+		if (r2.VCF) {
+			$("#chr-input").val(r2.VCF.chr);
+			$("#ref-input").val(r2.VCF[humanGenomeVersion].ref);
+			$("#alt-input").val(r2.VCF[humanGenomeVersion].alt);
+			$("#start-input").val(r2.VCF[humanGenomeVersion].pos);
+
+			if (r2.VCF[humanGenomeVersion].ref.length > r2.VCF[humanGenomeVersion].alt.length) {
+				const diff = r2.VCF[humanGenomeVersion].ref.length - r2.VCF[humanGenomeVersion].alt.length;
+				$("#end-input").val(r2.VCF[humanGenomeVersion].pos + diff);
+			} else {
+				$("#end-input").val(r2.VCF[humanGenomeVersion].pos);
+			}
+		}
+
+		if (r2.gene) {
+			$("#gene-input").val(r2.gene.symbol);
+		}
+
+		$(".data-input").keyup();
+		removeSkeletonProgressor($("#input-data-row"));
+	});
+}
+
+let fillInputFieldsByMobiDetailsData = () => {
+	if ($("#mobidetails-hgvs-input").val().trim().length == 0) {
+		showError("Please insert a valid HGVS genomic variant description!");
+		return;
+	}
+
+	appendSkeletonProgressor($("#input-data-row"));
+
+	ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/exists/" + $("#mobidetails-hgvs-input").val(), {}, function(r1) {
+		if (r1.mobidetails_id) {
+			transferMobiDetailsInfoToInputFields(r1.mobidetails_id);
+		} else {
+			createMobiDetailsVariant($("#mobidetails-hgvs-input").val(), function(response) {
+				if (response.mobidetails_id) {
+					transferMobiDetailsInfoToInputFields(response.mobidetails_id);
+				} else {
+					$("#chr-input").val("");
+					$("#ref-input").val("");
+					$("#alt-input").val("");
+					$("#start-input").val("");
+					$("#end-input").val("");
+					$("#gene-input").val("");
+					$("#mobiDetailsId-input").val("");
+					$(".data-input").keyup();
+					removeSkeletonProgressor($("#input-data-row"));
+				}
+			});
+		}
+	});
+
+}
+
 $(document).ready(function() {
 	
 	renderToolCards();
 	
-	$("#mobidetails-hgvs-search-btn").click(function() {
-		appendSkeletonProgressor($("#input-data-row"));
-		ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/exists/" + $("#mobidetails-hgvs-input").val(), {}, function(r1) {
-			if (r1.mobidetails_id) {
-				ServiceCaller.get("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/" + r1.mobidetails_id + "/cli/,", {}, function(r2) {
-					if (r2.VCF) {
-						$("#chr-input").val(r2.VCF.chr);
-						$("#ref-input").val(r2.VCF[humanGenomeVersion].ref);
-						$("#alt-input").val(r2.VCF[humanGenomeVersion].alt);
-						$("#start-input").val(r2.VCF[humanGenomeVersion].pos);
- 
-						if (r2.VCF[humanGenomeVersion].ref.length > r2.VCF[humanGenomeVersion].alt.length) {
-							const diff = r2.VCF[humanGenomeVersion].ref.length - r2.VCF[humanGenomeVersion].alt.length;
-							$("#end-input").val(r2.VCF[humanGenomeVersion].pos + diff);
-						} else {
-							$("#end-input").val(r2.VCF[humanGenomeVersion].pos);
-						}
-					}
+	if ($.cookie("mobidetails-api-key")) {
+		$("#mobidetails-api-key-input").val($.cookie("mobidetails-api-key"));
+	}
 
-					if (r2.gene) {
-						$("#gene-input").val(r2.gene.symbol);
-					}
-
-					$(".data-input").keyup();
-					removeSkeletonProgressor($("#input-data-row"));
-				});
-			} else {
-				$("#chr-input").val("");
-				$("#ref-input").val("");
-				$("#alt-input").val("");
-				$("#start-input").val("");
-				$("#end-input").val("");
-				$("#gene-input").val("");
-				$(".data-input").keyup();
-				removeSkeletonProgressor($("#input-data-row"));
-			}
-		});
+	$("#mobidetails-hgvs-input").on("keyup", function() {
+		fillInputFieldsByMobiDetailsData();
 	});
+
+	$("#mobidetails-hgvs-search-btn").click(function() {
+		fillInputFieldsByMobiDetailsData();
+	});
+	 
+	
 	
 	$(".use-input").click(function(_) {
 		$(this).parent().prev().keyup();
@@ -680,7 +770,16 @@ $(document).ready(function() {
 				highlightInput('Ref');
 				highlightInput('Alt');
 
-			} else if ($(this).attr("tool") == "lovd") {
+			} else if ($(this).attr("tool") == "mobiDetails") {
+
+				if (mobiDetailsId.length > 0) {
+					openApp("https://mobidetails.iurc.montp.inserm.fr/MD/api/variant/" + mobiDetailsId + "/browser/", "tab");
+					return;
+				}
+
+				highlightInput('mobiDetailsId');
+
+			}else if ($(this).attr("tool") == "lovd") {
 				if (gene.length > 0) {
 					openApp("https://databases.lovd.nl/shared/genes/" + gene, "modal");
 					return;
